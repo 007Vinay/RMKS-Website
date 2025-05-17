@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/main :: html(content=~{::main}, title='View Contact')}">
+<body>
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title mb-4">Contact Details</h1>
+
+                        <div class="contact-details mb-4">
+                            <div class="row">
+                                <!-- Personal Info -->
+                                <div class="col-md-6">
+                                    <h3>Contact Information</h3>
+                                    <table class="table">
+                                        <tr>
+                                            <th>Name</th>
+                                            <td th:text="${contact.name}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Email</th>
+                                            <td th:text="${contact.email}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Subject</th>
+                                            <td th:text="${contact.subject}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Received Date</th>
+                                            <td th:text="${#temporals.format(contact.submissionDate, 'dd MMM yyyy HH:mm')}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Status</th>
+                                            <td>
+                                                <span th:class="${'badge ' + (contact.processed ? 'bg-success' : 'bg-warning')}"
+                                                      th:text="${contact.processed ? 'Processed' : 'Pending'}">
+                                                    Status
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Message -->
+                        <div class="message mb-4">
+                            <h3>Message</h3>
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <p th:text="${contact.message}"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Admin Response -->
+                        <div class="admin-response mb-4">
+                            <h3>Response</h3>
+                            <form th:action="@{/admin/contact/respond}" method="post">
+                                <input type="hidden" name="id" th:value="${contact.id}" />
+                                <div class="mb-3">
+                                    <label for="response" class="form-label">Your Response</label>
+                                    <textarea class="form-control" id="response" name="response" rows="5" required
+                                              th:text="${contact.adminResponse}"></textarea>
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="sendEmail" name="sendEmail">
+                                    <label class="form-check-label" for="sendEmail">Send email to user</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Send Response</button>
+                            </form>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a th:href="@{/admin/contact}" class="btn btn-secondary">Back to List</a>
+                            <form th:action="@{/admin/contact/delete}" method="post" class="d-inline"
+                                  onsubmit="return confirm('Are you sure you want to delete this contact request?');">
+                                <input type="hidden" name="id" th:value="${contact.id}" />
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html> 

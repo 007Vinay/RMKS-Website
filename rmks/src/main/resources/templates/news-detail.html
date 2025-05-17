@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/main :: html(content=~{::main}, title=${isHindi ? news.titleHi : news.titleEn})}">
+<body>
+<main>
+    <div class="container py-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/news}" th:text="${isHindi} ? 'समाचार' : 'News'">News</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="${isHindi} ? ${news.titleHi} : ${news.titleEn}">News Title</li>
+            </ol>
+        </nav>
+
+        <article class="news-article">
+            <!-- News Header -->
+            <header class="mb-4">
+                <h1 class="display-4 mb-3" th:text="${isHindi} ? ${news.titleHi} : ${news.titleEn}">News Title</h1>
+                <div class="meta text-muted mb-4">
+                    <span class="me-3">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span th:text="${#temporals.format(news.publishDate, 'dd MMM yyyy')}">Date</span>
+                    </span>
+                    <span class="badge" th:classappend="${news.category == 'farmers' ? 'bg-success' : (news.category == 'workers' ? 'bg-info' : 'bg-warning')}"
+                          th:text="${news.category}">Category</span>
+                </div>
+            </header>
+
+            <!-- Featured Image -->
+            <div class="featured-image mb-4" th:if="${news.imageUrl}">
+                <img th:src="${news.imageUrl}" class="img-fluid rounded" th:alt="${isHindi} ? ${news.titleHi} : ${news.titleEn}">
+            </div>
+
+            <!-- News Content -->
+            <div class="content">
+                <p class="lead mb-4" th:text="${isHindi} ? ${news.summaryHi} : ${news.summaryEn}">News Summary</p>
+                <div class="news-content" th:utext="${isHindi} ? ${news.contentHi} : ${news.contentEn}">
+                    News Content
+                </div>
+            </div>
+
+            <!-- Event Details if applicable -->
+            <div class="event-details mt-4" th:if="${news.eventDate != null}">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${isHindi} ? 'कार्यक्रम की जानकारी' : 'Event Details'">Event Details</h5>
+                        <p class="card-text">
+                            <i class="fas fa-calendar-day"></i>
+                            <span th:text="${#temporals.format(news.eventDate, 'dd MMM yyyy HH:mm')}">Event Date</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Back to News -->
+        <div class="mt-5">
+            <a th:href="@{/news}" class="btn btn-outline-primary">
+                <i class="fas fa-arrow-left me-2"></i>
+                <span th:text="${isHindi} ? 'सभी समाचार देखें' : 'Back to News'">Back to News</span>
+            </a>
+        </div>
+    </div>
+</main>
+</body>
+</html> 

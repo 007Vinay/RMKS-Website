@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/main :: html(content=~{::main}, title=${news.id} ? 'Edit News' : 'Add News')}">
+<body>
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title mb-4" th:text="${news.id} ? (${isHindi} ? 'समाचार संपादित करें' : 'Edit News') : (${isHindi} ? 'नया समाचार जोड़ें' : 'Add News')">Add/Edit News</h1>
+
+                        <!-- Error Alert -->
+                        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <span th:text="${error}">Error message</span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+
+                        <form th:action="@{/admin/news/save}" method="post" enctype="multipart/form-data" th:object="${news}">
+                            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                            <input type="hidden" th:field="*{id}">
+
+                            <!-- English Content -->
+                            <div class="mb-4">
+                                <h3 th:text="${isHindi} ? 'अंग्रेजी सामग्री' : 'English Content'">English Content</h3>
+                                <div class="mb-3">
+                                    <label for="titleEn" class="form-label" th:text="${isHindi} ? 'शीर्षक (अंग्रेजी)' : 'Title (English)'">Title (English)</label>
+                                    <input type="text" class="form-control" id="titleEn" th:field="*{titleEn}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="summaryEn" class="form-label" th:text="${isHindi} ? 'सारांश (अंग्रेजी)' : 'Summary (English)'">Summary (English)</label>
+                                    <textarea class="form-control" id="summaryEn" th:field="*{summaryEn}" rows="2" required></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contentEn" class="form-label" th:text="${isHindi} ? 'विस्तृत सामग्री (अंग्रेजी)' : 'Detailed Content (English)'">Content (English)</label>
+                                    <textarea class="form-control" id="contentEn" th:field="*{contentEn}" rows="5" required></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Hindi Content -->
+                            <div class="mb-4">
+                                <h3 th:text="${isHindi} ? 'हिंदी सामग्री' : 'Hindi Content'">Hindi Content</h3>
+                                <div class="mb-3">
+                                    <label for="titleHi" class="form-label" th:text="${isHindi} ? 'शीर्षक (हिंदी)' : 'Title (Hindi)'">Title (Hindi)</label>
+                                    <input type="text" class="form-control" id="titleHi" th:field="*{titleHi}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="summaryHi" class="form-label" th:text="${isHindi} ? 'सारांश (हिंदी)' : 'Summary (Hindi)'">Summary (Hindi)</label>
+                                    <textarea class="form-control" id="summaryHi" th:field="*{summaryHi}" rows="2" required></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="contentHi" class="form-label" th:text="${isHindi} ? 'विस्तृत सामग्री (हिंदी)' : 'Detailed Content (Hindi)'">Content (Hindi)</label>
+                                    <textarea class="form-control" id="contentHi" th:field="*{contentHi}" rows="5" required></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Common Fields -->
+                            <div class="mb-4">
+                                <h3 th:text="${isHindi} ? 'अन्य जानकारी' : 'Other Information'">Other Information</h3>
+                                <div class="mb-3">
+                                    <label for="category" class="form-label" th:text="${isHindi} ? 'श्रेणी' : 'Category'">Category</label>
+                                    <select class="form-select" id="category" th:field="*{category}" required>
+                                        <option value="farmers" th:text="${isHindi} ? 'किसान' : 'Farmers'">Farmers</option>
+                                        <option value="workers" th:text="${isHindi} ? 'मजदूर' : 'Workers'">Workers</option>
+                                        <option value="events" th:text="${isHindi} ? 'कार्यक्रम' : 'Events'">Events</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="publishDate" class="form-label" th:text="${isHindi} ? 'प्रकाशन तिथि' : 'Publish Date'">Publish Date</label>
+                                    <input type="datetime-local" class="form-control" id="publishDate" name="publishDate" 
+                                           th:value="${news.publishDate != null ? #temporals.format(news.publishDate, 'yyyy-MM-dd''T''HH:mm:ss') : #temporals.format(#temporals.createNow(), 'yyyy-MM-dd''T''HH:mm:ss')}"
+                                           required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="eventDate" class="form-label" th:text="${isHindi} ? 'कार्यक्रम तिथि' : 'Event Date'">Event Date</label>
+                                    <input type="datetime-local" class="form-control" id="eventDate" name="eventDate"
+                                           th:value="${news.eventDate != null ? #temporals.format(news.eventDate, 'yyyy-MM-dd''T''HH:mm:ss') : ''}"
+                                           step="1">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="imageFile" class="form-label" th:text="${isHindi} ? 'छवि' : 'Image'">Image</label>
+                                    <input type="file" class="form-control" id="imageFile" name="imageFile" accept="image/*" th:required="${news.id == null}">
+                                    <small class="text-muted" th:text="${isHindi} ? 'अनुशंसित आकार: 800x400 पिक्सल' : 'Recommended size: 800x400 pixels'">Recommended size: 800x400 pixels</small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="featured" th:field="*{featured}">
+                                        <label class="form-check-label" for="featured" th:text="${isHindi} ? 'प्रमुख समाचार के रूप में दिखाएं' : 'Show as Featured News'">
+                                            Show as Featured News
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="active" th:field="*{active}">
+                                        <label class="form-check-label" for="active" th:text="${isHindi} ? 'सक्रिय रखें' : 'Keep Active'">Keep Active</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <a th:href="@{/admin/news}" class="btn btn-secondary" th:text="${isHindi} ? 'वापस जाएं' : 'Go Back'">Go Back</a>
+                                <button type="submit" class="btn btn-primary" th:text="${news.id} ? (${isHindi} ? 'अपडेट करें' : 'Update') : (${isHindi} ? 'सहेजें' : 'Save')">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

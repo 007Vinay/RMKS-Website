@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/main :: html(content=~{::main}, title='Admin Dashboard')}">
+<body>
+<main>
+    <div class="admin-dashboard">
+        <h1 class="mb-4">Admin Dashboard</h1>
+
+        <!-- Statistics Cards -->
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="stats-card">
+                    <i class="fas fa-newspaper"></i>
+                    <h3 th:text="${newsCount}">0</h3>
+                    <p>Total News Articles</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="stats-card">
+                    <i class="fas fa-comments"></i>
+                    <h3 th:text="${unprocessedFeedbackCount}">0</h3>
+                    <p>Pending Feedback</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="stats-card">
+                    <i class="fas fa-users"></i>
+                    <h3 th:text="${membershipRequestsCount}">0</h3>
+                    <p>Membership Requests</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="stats-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3 th:text="${unprocessedContactCount}">0</h3>
+                    <p>Contact Requests</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="admin-card">
+                    <h4>Quick Actions</h4>
+                    <div class="list-group">
+                        <a href="/admin/news/create" class="list-group-item list-group-item-action">
+                            <i class="fas fa-plus"></i> Add New Article
+                        </a>
+                        <a href="/admin/news" class="list-group-item list-group-item-action">
+                            <i class="fas fa-newspaper"></i> Manage News Articles
+                        </a>
+                        <a href="/admin/feedback" class="list-group-item list-group-item-action">
+                            <i class="fas fa-inbox"></i> View Feedback
+                        </a>
+                        <a href="/admin/members" class="list-group-item list-group-item-action">
+                            <i class="fas fa-user-plus"></i> Manage Members
+                        </a>
+                        <a href="/admin/contact" class="list-group-item list-group-item-action">
+                            <i class="fas fa-envelope"></i> Contact Requests
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="admin-card">
+                    <h4>Recent Activity</h4>
+                    <div class="list-group">
+                        <div th:each="activity : ${recentActivities}" class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">
+                                    <i th:class="${'fas ' + 
+                                        (activity.actionType == 'NEWS' ? 'fa-newspaper' : '') +
+                                        (activity.actionType == 'MEMBER' ? 'fa-user' : '') +
+                                        (activity.actionType == 'FEEDBACK' ? 'fa-comment' : '') +
+                                        (activity.actionType == 'CONTACT' ? 'fa-envelope' : '')}">
+                                    </i>
+                                    <span th:text="${activity.description}">Activity</span>
+                                </h6>
+                                <small th:text="${#temporals.format(activity.timestamp, 'dd MMM yyyy HH:mm')}">Time</small>
+                            </div>
+                            <p class="mb-1" th:text="${activity.details}">Details</p>
+                            <small class="text-muted" th:text="${activity.performedBy}">admin</small>
+                        </div>
+                        <div th:if="${#lists.isEmpty(recentActivities)}" class="list-group-item">
+                            <p class="mb-0 text-center">No recent activities</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Feedback and Contact Requests -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="admin-card">
+                    <h4>Recent Feedback</h4>
+                    <div class="list-group">
+                        <a th:each="feedback : ${recentFeedback}"
+                           th:href="@{/admin/feedback/view/{id}(id=${feedback.id})}"
+                           class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1" th:text="${feedback.name}">Name</h6>
+                                <small th:text="${#temporals.format(feedback.submissionDate, 'dd MMM')}">Date</small>
+                            </div>
+                            <p class="mb-1" th:text="${feedback.message}">Message</p>
+                            <small th:text="${feedback.category}">Category</small>
+                        </a>
+                        <div th:if="${#lists.isEmpty(recentFeedback)}" class="list-group-item">
+                            <p class="mb-0 text-center">No recent feedback</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="admin-card">
+                    <h4>Recent Contact Requests</h4>
+                    <div class="list-group">
+                        <a th:each="contact : ${recentContacts}"
+                           th:href="@{/admin/contact/view/{id}(id=${contact.id})}"
+                           class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1" th:text="${contact.name}">Name</h6>
+                                <small th:text="${#temporals.format(contact.submissionDate, 'dd MMM')}">Date</small>
+                            </div>
+                            <p class="mb-1" th:text="${contact.subject}">Subject</p>
+                            <small th:text="${contact.processed ? 'Processed' : 'Pending'}">Status</small>
+                        </a>
+                        <div th:if="${#lists.isEmpty(recentContacts)}" class="list-group-item">
+                            <p class="mb-0 text-center">No recent contact requests</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

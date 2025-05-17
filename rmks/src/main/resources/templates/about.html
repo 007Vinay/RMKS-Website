@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/main :: html(content=~{::main}, title='About Us')}">
+<body>
+<main>
+    <div class="container">
+        <h1 class="mb-4" th:text="${isHindi} ? 'हमारे बारे में' : 'About Us'">About Us</h1>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="about-content">
+                    <h2 class="mb-3" th:text="${isHindi} ? 'हमारा परिचय' : 'Our Introduction'">Our Introduction</h2>
+                    <p class="lead" th:text="${isHindi} ? 'राष्ट्रीय मजदूर किसान संगठन एक समर्पित संस्था है जो किसानों और मजदूरों के अधिकारों की रक्षा के लिए काम करती है।' : 'Rashtriya Majdoor Kisan Sangathan is a dedicated organization working to protect the rights of farmers and workers.'"></p>
+
+                    <h3 class="mt-4 mb-3" th:text="${isHindi} ? 'हमारा इतिहास' : 'Our History'">Our History</h3>
+                    <p th:text="${isHindi} ? 'संगठन की स्थापना किसानों और मजदूरों के अधिकारों की रक्षा के लिए की गई थी।' : 'The organization was established to protect the rights of farmers and workers.'"></p>
+
+                    <h3 class="mt-4 mb-3" th:text="${isHindi} ? 'हमारा विजन' : 'Our Vision'">Our Vision</h3>
+                    <p th:text="${isHindi} ? 'हमारा विजन एक ऐसा समाज बनाना है जहां हर किसान और मजदूर को उचित अधिकार और सम्मान मिले।' : 'Our vision is to create a society where every farmer and worker gets their due rights and respect.'"></p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="/images/about-main.jpg" class="card-img-top" alt="About RMKS">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${isHindi} ? 'हमारी उपलब्धियां' : 'Our Achievements'">Our Achievements</h5>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success"></i> <span th:text="${isHindi} ? 'किसान अधिकार' : 'Farmer Rights'"></span></li>
+                            <li><i class="fas fa-check text-success"></i> <span th:text="${isHindi} ? 'मजदूर कल्याण' : 'Worker Welfare'"></span></li>
+                            <li><i class="fas fa-check text-success"></i> <span th:text="${isHindi} ? 'सामाजिक न्याय' : 'Social Justice'"></span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

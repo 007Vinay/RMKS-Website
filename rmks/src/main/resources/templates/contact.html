@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{layout/main :: html(content=~{::main}, title='Contact Us')}"
+>
+  <body>
+    <main>
+      <div class="container">
+        <h1 class="mb-4" th:text="${isHindi} ? 'संपर्क करें' : 'Contact Us'">
+          Contact Us
+        </h1>
+
+        <!-- Success Alert (Hidden by default) -->
+        <div id="successAlert" class="alert alert-success alert-dismissible fade" role="alert" style="display: none;">
+            <span th:text="${isHindi} ? 'आपका संदेश सफलतापूर्वक भेज दिया गया है!' : 'Your message has been sent successfully!'">
+                Your message has been sent successfully!
+            </span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <!-- Error Alert (Hidden by default) -->
+        <div id="errorAlert" class="alert alert-danger alert-dismissible fade" role="alert" style="display: none;">
+            <span th:text="${isHindi} ? 'संदेश भेजने में त्रुटि। कृपया पुनः प्रयास करें।' : 'Error sending message. Please try again.'">
+                Error sending message. Please try again.
+            </span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="contact-info mb-4">
+              <h3 th:text="${isHindi} ? 'हमारा पता' : 'Our Address'">
+                Our Address
+              </h3>
+              <p>
+                <i class="fas fa-map-marker-alt"></i>
+                <span
+                  th:text="${isHindi} ? 'राम कृपा योगपीठ तेनुआ, हर्रैया (बस्ती)' : 'Ramkripa Yogpeeth Tenua, Harraiya (Basti)'"
+                ></span>
+              </p>
+              <p>
+                <i class="fas fa-phone"></i>
+                <span
+                  th:text="${isHindi} ? 'फोन: +919918354002' : 'Phone: +919918354002'"
+                ></span>
+              </p>
+              <p>
+                <i class="fas fa-envelope"></i>
+                <span
+                  th:text="${isHindi} ? 'ईमेल: ramkripayogpeeth@gmail.com' : 'Email: ramkripayogpeeth@gmail.com'"
+                ></span>
+              </p>
+            </div>
+
+            <div class="social-links mb-4">
+              <h3 th:text="${isHindi} ? 'सोशल मीडिया' : 'Social Media'">
+                Social Media
+              </h3>
+              <a
+                href="https://www.facebook.com/deena.nath.1253"
+                class="btn btn-outline-primary me-2"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a
+                href="https://x.com/DrDNPatel2"
+                class="btn btn-outline-info me-2"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a
+                href="https://www.instagram.com/deenanathofficial/"
+                class="btn btn-outline-danger me-2"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a
+                href="https://wa.me/919918354002"
+                class="btn btn-outline-success"
+                ><i class="fab fa-whatsapp"></i
+              ></a>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <h3
+                  class="card-title mb-4"
+                  th:text="${isHindi} ? 'संदेश भेजें' : 'Send Message'"
+                >
+                  Send Message
+                </h3>
+                <form id="contactForm" class="needs-validation" novalidate>
+                  <div class="mb-3">
+                    <label
+                      for="name"
+                      class="form-label"
+                      th:text="${isHindi} ? 'नाम' : 'Name'"
+                      >Name</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      name="name"
+                      required
+                    />
+                    <div class="invalid-feedback" th:text="${isHindi} ? 'कृपया अपना नाम दर्ज करें' : 'Please enter your name'">
+                        Please enter your name
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label
+                      for="email"
+                      class="form-label"
+                      th:text="${isHindi} ? 'ईमेल' : 'Email'"
+                      >Email</label
+                    >
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      name="email"
+                      required
+                    />
+                    <div class="invalid-feedback" th:text="${isHindi} ? 'कृपया एक वैध ईमेल पता दर्ज करें' : 'Please enter a valid email address'">
+                        Please enter a valid email address
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label
+                      for="subject"
+                      class="form-label"
+                      th:text="${isHindi} ? 'विषय' : 'Subject'"
+                      >Subject</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="subject"
+                      name="subject"
+                      required
+                    />
+                    <div class="invalid-feedback" th:text="${isHindi} ? 'कृपया विषय दर्ज करें' : 'Please enter a subject'">
+                        Please enter a subject
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label
+                      for="message"
+                      class="form-label"
+                      th:text="${isHindi} ? 'संदेश' : 'Message'"
+                      >Message</label
+                    >
+                    <textarea
+                      class="form-control"
+                      id="message"
+                      name="message"
+                      rows="5"
+                      required
+                    ></textarea>
+                    <div class="invalid-feedback" th:text="${isHindi} ? 'कृपया अपना संदेश दर्ज करें' : 'Please enter your message'">
+                        Please enter your message
+                    </div>
+                  </div>
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    th:text="${isHindi} ? 'भेजें' : 'Send'"
+                  >
+                    Send
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add this script at the end of the main section -->
+      <script th:inline="javascript">
+          document.getElementById('contactForm').addEventListener('submit', function(e) {
+              e.preventDefault();
+              
+              // Get form data
+              const formData = {
+                  name: document.getElementById('name').value,
+                  email: document.getElementById('email').value,
+                  subject: document.getElementById('subject').value,
+                  message: document.getElementById('message').value
+              };
+
+              // Send AJAX request
+              fetch('/contact/submit', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(formData)
+              })
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error('Network response was not ok');
+                  }
+                  return response.json();
+              })
+              .then(data => {
+                  // Show success message
+                  const successAlert = document.getElementById('successAlert');
+                  successAlert.style.display = 'block';
+                  successAlert.classList.add('show');
+                  
+                  // Reset form
+                  this.reset();
+                  
+                  // Hide success message after 5 seconds
+                  setTimeout(() => {
+                      successAlert.classList.remove('show');
+                      setTimeout(() => {
+                          successAlert.style.display = 'none';
+                      }, 150);
+                  }, 5000);
+              })
+              .catch(error => {
+                  // Show error message
+                  const errorAlert = document.getElementById('errorAlert');
+                  errorAlert.style.display = 'block';
+                  errorAlert.classList.add('show');
+                  
+                  // Hide error message after 5 seconds
+                  setTimeout(() => {
+                      errorAlert.classList.remove('show');
+                      setTimeout(() => {
+                          errorAlert.style.display = 'none';
+                      }, 150);
+                  }, 5000);
+              });
+          });
+      </script>
+    </main>
+  </body>
+</html>

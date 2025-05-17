@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/main :: html(content=~{::main}, title='View Feedback')}">
+<body>
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title mb-4" th:text="${isHindi} ? 'प्रतिक्रिया विवरण' : 'Feedback Details'"></h1>
+
+                        <div class="feedback-details mb-4">
+                            <div class="row">
+                                <!-- Personal Info -->
+                                <div class="col-md-6">
+                                    <h3 th:text="${isHindi} ? 'व्यक्तिगत जानकारी' : 'Personal Information'"></h3>
+                                    <table class="table">
+                                        <tr>
+                                            <th th:text="${isHindi} ? 'नाम' : 'Name'"></th>
+                                            <td th:text="${feedback.name}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th th:text="${isHindi} ? 'ईमेल' : 'Email'"></th>
+                                            <td th:text="${feedback.email}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th th:text="${isHindi} ? 'फोन' : 'Phone'"></th>
+                                            <td th:text="${feedback.phone}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th th:text="${isHindi} ? 'श्रेणी' : 'Category'"></th>
+                                            <td th:text="${feedback.category}"></td>
+                                        </tr>
+                                        <tr>
+                                            <th th:text="${isHindi} ? 'प्राप्त तिथि' : 'Received Date'"></th>
+                                            <td th:text="${#temporals.format(feedback.createdAt, 'dd MMM yyyy HH:mm')}"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <!-- Status & Priority -->
+                                <div class="col-md-6">
+                                    <h3 th:text="${isHindi} ? 'स्थिति और टैग' : 'Status & Tags'"></h3>
+                                    <form th:action="@{/admin/feedback/update-status}" method="post" class="mb-3">
+                                        <input type="hidden" name="id" th:value="${feedback.id}" />
+
+                                        <div class="mb-3">
+                                            <label for="status" class="form-label" th:text="${isHindi} ? 'स्थिति' : 'Status'"></label>
+                                            <select class="form-select" id="status" name="status" required>
+                                                <option value="NEW" th:selected="${feedback.status == 'NEW'}"
+                                                        th:text="${isHindi} ? 'नया' : 'New'"></option>
+                                                <option value="IN_PROGRESS" th:selected="${feedback.status == 'IN_PROGRESS'}"
+                                                        th:text="${isHindi} ? 'प्रगति में' : 'In Progress'"></option>
+                                                <option value="RESOLVED" th:selected="${feedback.status == 'RESOLVED'}"
+                                                        th:text="${isHindi} ? 'समाधान हो गया' : 'Resolved'"></option>
+                                                <option value="CLOSED" th:selected="${feedback.status == 'CLOSED'}"
+                                                        th:text="${isHindi} ? 'बंद' : 'Closed'"></option>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="priority" class="form-label" th:text="${isHindi} ? 'प्राथमिकता' : 'Priority'"></label>
+                                            <select class="form-select" id="priority" name="priority" required>
+                                                <option value="LOW" th:selected="${feedback.priority == 'LOW'}"
+                                                        th:text="${isHindi} ? 'कम' : 'Low'"></option>
+                                                <option value="MEDIUM" th:selected="${feedback.priority == 'MEDIUM'}"
+                                                        th:text="${isHindi} ? 'मध्यम' : 'Medium'"></option>
+                                                <option value="HIGH" th:selected="${feedback.priority == 'HIGH'}"
+                                                        th:text="${isHindi} ? 'उच्च' : 'High'"></option>
+                                            </select>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary"
+                                                th:text="${isHindi} ? 'अपडेट करें' : 'Update'"></button>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Feedback Message -->
+                        <div class="feedback-message mb-4">
+                            <h3 th:text="${isHindi} ? 'प्रतिक्रिया संदेश' : 'Feedback Message'"></h3>
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <p th:text="${feedback.message}"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Admin Response -->
+                        <div class="admin-response mb-4">
+                            <h3 th:text="${isHindi} ? 'प्रतिक्रिया' : 'Response'"></h3>
+                            <form th:action="@{/admin/feedback/respond}" method="post">
+                                <input type="hidden" name="id" th:value="${feedback.id}" />
+                                <div class="mb-3">
+                                    <label for="response" class="form-label"
+                                           th:text="${isHindi} ? 'आपकी प्रतिक्रिया' : 'Your Response'"></label>
+                                    <textarea class="form-control" id="response" name="response" rows="5" required
+                                              th:text="${feedback.response}"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="sendEmail" name="sendEmail" />
+                                        <label class="form-check-label" for="sendEmail"
+                                               th:text="${isHindi} ? 'प्रतिक्रिया ईमेल भेजें' : 'Send Response Email'"></label>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary"
+                                        th:text="${isHindi} ? 'प्रतिक्रिया भेजें' : 'Send Response'"></button>
+                            </form>
+                        </div>
+
+                        <!-- Buttons: Back and Delete -->
+                        <div class="d-flex justify-content-between">
+                            <a th:href="@{/admin/feedback}" class="btn btn-secondary"
+                               th:text="${isHindi} ? 'वापस जाएं' : 'Go Back'"></a>
+
+                            <form th:action="@{/admin/feedback/delete}" method="post" class="d-inline"
+                                  onsubmit="return confirmDelete(this)">
+                                <input type="hidden" name="id" th:value="${feedback.id}" />
+                                <button type="submit" class="btn btn-danger"
+                                        th:text="${isHindi} ? 'हटाएं' : 'Delete'"></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS outside card to avoid layout issues -->
+    <script th:inline="javascript">
+        function confirmDelete(form) {
+            return confirm([[${isHindi} ? 'क्या आप सुनिश्चित हैं?' : 'Are you sure?']]);
+        }
+    </script>
+</main>
+</body>
+</html>

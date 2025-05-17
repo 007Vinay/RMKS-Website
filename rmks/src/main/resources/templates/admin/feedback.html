@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/main :: html(content=~{::main}, title='Admin - Feedback List')}">
+<body>
+<main>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Feedback Management</h1>
+        </div>
+
+        <!-- Filters -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <form id="filterForm" method="get" th:action="@{/admin/feedback}">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" id="status" name="status">
+                                <option value="">All</option>
+                                <option value="NEW" th:selected="${selectedStatus == 'NEW'}">New</option>
+                                <option value="IN_PROGRESS" th:selected="${selectedStatus == 'IN_PROGRESS'}">In Progress</option>
+                                <option value="RESOLVED" th:selected="${selectedStatus == 'RESOLVED'}">Resolved</option>
+                                <option value="CLOSED" th:selected="${selectedStatus == 'CLOSED'}">Closed</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="priority" class="form-label">Priority</label>
+                            <select class="form-select" id="priority" name="priority">
+                                <option value="">All</option>
+                                <option value="LOW" th:selected="${selectedPriority == 'LOW'}">Low</option>
+                                <option value="MEDIUM" th:selected="${selectedPriority == 'MEDIUM'}">Medium</option>
+                                <option value="HIGH" th:selected="${selectedPriority == 'HIGH'}">High</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="category" class="form-label">Category</label>
+                            <select class="form-select" id="category" name="category">
+                                <option value="">All</option>
+                                <option value="GENERAL" th:selected="${selectedCategory == 'GENERAL'}">General</option>
+                                <option value="SUGGESTION" th:selected="${selectedCategory == 'SUGGESTION'}">Suggestion</option>
+                                <option value="COMPLAINT" th:selected="${selectedCategory == 'COMPLAINT'}">Complaint</option>
+                                <option value="MEMBERSHIP_REQUEST" th:selected="${selectedCategory == 'MEMBERSHIP_REQUEST'}">Membership Request</option>
+                                <option value="VOLUNTEER_APPLICATION" th:selected="${selectedCategory == 'VOLUNTEER_APPLICATION'}">Volunteer Application</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary me-2">Apply Filters</button>
+                            <a href="/admin/feedback" class="btn btn-secondary">Clear Filters</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Feedback List -->
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Status</th>
+                                <th>Priority</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="feedback : ${feedbackList}">
+                                <td th:text="${feedback.id}">1</td>
+                                <td th:text="${#temporals.format(feedback.submissionDate, 'dd MMM yyyy HH:mm')}">01 Jan 2024</td>
+                                <td th:text="${feedback.name}">John Doe</td>
+                                <td th:text="${feedback.category}">General</td>
+                                <td>
+                                    <span th:class="${'badge ' + 
+                                        (feedback.status == 'NEW' ? 'bg-primary' : '') + 
+                                        (feedback.status == 'IN_PROGRESS' ? 'bg-warning' : '') + 
+                                        (feedback.status == 'RESOLVED' ? 'bg-success' : '') + 
+                                        (feedback.status == 'CLOSED' ? 'bg-secondary' : '')}"
+                                          th:text="${feedback.status}">
+                                        Status
+                                    </span>
+                                </td>
+                                <td>
+                                    <span th:class="${'badge ' + 
+                                        (feedback.priority == 'LOW' ? 'bg-info' : '') + 
+                                        (feedback.priority == 'MEDIUM' ? 'bg-warning' : '') + 
+                                        (feedback.priority == 'HIGH' ? 'bg-danger' : '')}"
+                                          th:text="${feedback.priority}">
+                                        Priority
+                                    </span>
+                                </td>
+                                <td>
+                                    <a th:href="@{/admin/feedback/view/{id}(id=${feedback.id})}" 
+                                       class="btn btn-sm btn-primary">
+                                        View
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(feedbackList)}">
+                                <td colspan="7" class="text-center">No feedback found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-submit form when any filter changes
+            const filterForm = document.getElementById('filterForm');
+            const filterSelects = filterForm.querySelectorAll('select');
+            
+            filterSelects.forEach(select => {
+                select.addEventListener('change', function() {
+                    filterForm.submit();
+                });
+            });
+        });
+    </script>
+</main>
+</body>
+</html> 

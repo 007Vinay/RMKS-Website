@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/main :: html(content=~{::main}, title='Manage Members')}">
+<body>
+<main>
+  <div class="container">
+    <h1 class="mb-4">Manage Membership Requests</h1>
+
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Message</th>
+          <th>Status</th>
+          <th>Submitted On</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="member, iterStat : ${members}">
+          <td th:text="${iterStat.count}">1</td>
+          <td th:text="${member.name}">John Doe</td>
+          <td th:text="${member.email}">john@example.com</td>
+          <td th:text="${member.phone}">+91-1234567890</td>
+          <td th:text="${member.message}">Wants to join</td>
+          <td th:text="${member.status}">PENDING</td>
+          <td th:text="${#temporals.format(member.createdAt, 'dd MMM yyyy HH:mm')}">01 Jan 2025</td>
+          <td>
+            <form th:action="@{/admin/members/approve}" method="post" class="d-inline">
+              <input type="hidden" name="id" th:value="${member.feedbackId}">
+              <button class="btn btn-success btn-sm" type="submit">Approve</button>
+            </form>
+            <form th:action="@{/admin/members/reject}" method="post" class="d-inline ms-2">
+              <input type="hidden" name="id" th:value="${member.feedbackId}">
+              <button class="btn btn-danger btn-sm" type="submit" onclick="return confirm('Are you sure?')">Reject</button>
+            </form>
+          </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(members)}">
+          <td colspan="8" class="text-center">No membership requests found.</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+</body>
+</html>

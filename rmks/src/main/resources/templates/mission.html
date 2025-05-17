@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/main :: html(content=~{::main}, title='Our Mission')}">
+<body>
+<main>
+    <div class="container">
+        <h1 class="mb-4" th:text="${isHindi} ? 'हमारा मिशन' : 'Our Mission'">Our Mission</h1>
+
+        <div class="row">
+            <div class="col-md-8">
+                <!-- Mission Statement -->
+                <div class="mission-statement mb-5">
+                    <h2 class="mb-3" th:text="${isHindi} ? 'मिशन स्टेटमेंट' : 'Mission Statement'">Mission Statement</h2>
+                    <p class="lead" th:text="${isHindi} ? 'किसानों और मजदूरों के अधिकारों की रक्षा और उनके जीवन स्तर में सुधार के लिए काम करना।' : 'To work for the protection of farmers\' and workers\' rights and improve their standard of living.'"></p>
+                </div>
+
+                <!-- Core Values -->
+                <div class="core-values mb-5">
+                    <h2 class="mb-3" th:text="${isHindi} ? 'मूल मूल्य' : 'Core Values'">Core Values</h2>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="value-card">
+                                <i class="fas fa-balance-scale fa-2x text-primary mb-3"></i>
+                                <h4 th:text="${isHindi} ? 'न्याय' : 'Justice'">Justice</h4>
+                                <p th:text="${isHindi} ? 'सभी के लिए समान अधिकार और न्याय' : 'Equal rights and justice for all'"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="value-card">
+                                <i class="fas fa-hands-helping fa-2x text-primary mb-3"></i>
+                                <h4 th:text="${isHindi} ? 'एकजुटता' : 'Unity'">Unity</h4>
+                                <p th:text="${isHindi} ? 'एकजुट होकर काम करना' : 'Working together in solidarity'"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="value-card">
+                                <i class="fas fa-shield-alt fa-2x text-primary mb-3"></i>
+                                <h4 th:text="${isHindi} ? 'सुरक्षा' : 'Protection'">Protection</h4>
+                                <p th:text="${isHindi} ? 'अधिकारों की रक्षा' : 'Protection of rights'"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="value-card">
+                                <i class="fas fa-seedling fa-2x text-primary mb-3"></i>
+                                <h4 th:text="${isHindi} ? 'विकास' : 'Growth'">Growth</h4>
+                                <p th:text="${isHindi} ? 'सतत विकास' : 'Sustainable development'"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Objectives -->
+                <div class="objectives">
+                    <h2 class="mb-3" th:text="${isHindi} ? 'उद्देश्य' : 'Objectives'">Objectives</h2>
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <span th:text="${isHindi} ? 'किसानों और मजदूरों के अधिकारों की रक्षा' : 'Protect the rights of farmers and workers'"></span>
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <span th:text="${isHindi} ? 'आर्थिक और सामाजिक विकास' : 'Economic and social development'"></span>
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <span th:text="${isHindi} ? 'शिक्षा और जागरूकता' : 'Education and awareness'"></span>
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <span th:text="${isHindi} ? 'सामाजिक न्याय' : 'Social justice'"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <!-- Mission Image -->
+                <div class="mission-image mb-4">
+                    <img src="/images/mission.jpg" class="img-fluid rounded shadow" alt="Our Mission">
+                </div>
+
+                <!-- Call to Action -->
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <h3 class="card-title" th:text="${isHindi} ? 'हमारे साथ जुड़ें' : 'Join Our Cause'">Join Our Cause</h3>
+                        <p class="card-text" th:text="${isHindi} ? 'हमारे मिशन को साकार करने में हमारी मदद करें।' : 'Help us realize our mission.'"></p>
+                        <a href="/feedback" class="btn btn-light" th:text="${isHindi} ? 'अभी जुड़ें' : 'Join Now'">Join Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/main :: html(content=~{::main}, title='Our Services')}">
+<body>
+<main>
+    <div class="container">
+        <h1 class="mb-4" th:text="${isHindi} ? 'हमारी सेवाएं' : 'Our Services'">Our Services</h1>
+
+        <!-- Services Introduction -->
+        <div class="row mb-5">
+            <div class="col-md-8">
+                <p class="lead" th:text="${isHindi} ? 'राष्ट्रीय मजदूर किसान संगठन किसानों और मजदूरों के लिए विभिन्न सेवाएं प्रदान करता है।' : 'Rashtriya Majdoor Kisan Sangathan provides various services for farmers and workers.'"></p>
+            </div>
+        </div>
+
+        <!-- Main Services -->
+        <div class="row mb-5">
+            <!-- Farmer Support -->
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 service-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-tractor fa-3x text-primary mb-3"></i>
+                        <h3 class="card-title" th:text="${isHindi} ? 'किसान सहायता' : 'Farmer Support'">Farmer Support</h3>
+                        <ul class="list-unstyled">
+                            <li class="mb-2" th:text="${isHindi} ? 'कृषि सलाह' : 'Agricultural Advice'"></li>
+                            <li class="mb-2" th:text="${isHindi} ? 'बाजार जानकारी' : 'Market Information'"></li>
+                            <li class="mb-2" th:text="${isHindi} ? 'तकनीकी सहायता' : 'Technical Assistance'"></li>
+                        </ul>
+                        <a href="#farmer-support" class="btn btn-primary" th:text="${isHindi} ? 'और जानें' : 'Learn More'">Learn More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Worker Rights -->
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 service-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-hard-hat fa-3x text-primary mb-3"></i>
+                        <h3 class="card-title" th:text="${isHindi} ? 'श्रमिक अधिकार' : 'Worker Rights'">Worker Rights</h3>
+                        <ul class="list-unstyled">
+                            <li class="mb-2" th:text="${isHindi} ? 'कानूनी सहायता' : 'Legal Aid'"></li>
+                            <li class="mb-2" th:text="${isHindi} ? 'श्रम कानून सलाह' : 'Labor Law Advice'"></li>
+                            <li class="mb-2" th:text="${isHindi} ? 'विवाद समाधान' : 'Dispute Resolution'"></li>
+                        </ul>
+                        <a href="#worker-rights" class="btn btn-primary" th:text="${isHindi} ? 'और जानें' : 'Learn More'">Learn More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Training Programs -->
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 service-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-graduation-cap fa-3x text-primary mb-3"></i>
+                        <h3 class="card-title" th:text="${isHindi} ? 'प्रशिक्षण कार्यक्रम' : 'Training Programs'">Training Programs</h3>
+                        <ul class="list-unstyled">
+                            <li class="mb-2" th:text="${isHindi} ? 'कौशल विकास' : 'Skill Development'"></li>
+                            <li class="mb-2" th:text="${isHindi} ? 'क्षमता निर्माण' : 'Capacity Building'"></li>
+                            <li class="mb-2" th:text="${isHindi} ? 'जागरूकता कार्यक्रम' : 'Awareness Programs'"></li>
+                        </ul>
+                        <a href="#training" class="btn btn-primary" th:text="${isHindi} ? 'और जानें' : 'Learn More'">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Service Sections -->
+        <div id="farmer-support" class="service-detail mb-5">
+            <h2 class="mb-4" th:text="${isHindi} ? 'किसान सहायता सेवाएं' : 'Farmer Support Services'">Farmer Support Services</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <p th:text="${isHindi} ? 'किसानों के लिए विस्तृत सहायता सेवाओं का विवरण।' : 'Detailed description of support services for farmers.'"></p>
+                    <ul class="service-list">
+                        <li th:text="${isHindi} ? 'फसल सलाह और मार्गदर्शन' : 'Crop advisory and guidance'"></li>
+                        <li th:text="${isHindi} ? 'कृषि तकनीक प्रशिक्षण' : 'Agricultural technology training'"></li>
+                        <li th:text="${isHindi} ? 'बाजार संपर्क और विपणन' : 'Market linkage and marketing'"></li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <img src="/images/farmer-support.jpg" class="img-fluid rounded" alt="Farmer Support">
+                </div>
+            </div>
+        </div>
+
+        <div id="worker-rights" class="service-detail mb-5">
+            <h2 class="mb-4" th:text="${isHindi} ? 'श्रमिक अधिकार सेवाएं' : 'Worker Rights Services'">Worker Rights Services</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="/images/worker-rights.jpg" class="img-fluid rounded" alt="Worker Rights">
+                </div>
+                <div class="col-md-6">
+                    <p th:text="${isHindi} ? 'श्रमिकों के अधिकारों की रक्षा के लिए सेवाएं।' : 'Services for protecting workers\' rights.'"></p>
+                    <ul class="service-list">
+                        <li th:text="${isHindi} ? 'कानूनी सहायता और परामर्श' : 'Legal aid and consultation'"></li>
+                        <li th:text="${isHindi} ? 'श्रम कानून जागरूकता' : 'Labor law awareness'"></li>
+                        <li th:text="${isHindi} ? 'विवाद समाधान सहायता' : 'Dispute resolution assistance'"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="training" class="service-detail">
+            <h2 class="mb-4" th:text="${isHindi} ? 'प्रशिक्षण कार्यक्रम' : 'Training Programs'">Training Programs</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <p th:text="${isHindi} ? 'विभिन्न प्रशिक्षण और क्षमता निर्माण कार्यक्रम।' : 'Various training and capacity building programs.'"></p>
+                    <ul class="service-list">
+                        <li th:text="${isHindi} ? 'व्यावसायिक प्रशिक्षण' : 'Vocational training'"></li>
+                        <li th:text="${isHindi} ? 'नेतृत्व विकास' : 'Leadership development'"></li>
+                        <li th:text="${isHindi} ? 'डिजिटल साक्षरता' : 'Digital literacy'"></li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <img src="/images/training.jpg" class="img-fluid rounded" alt="Training Programs">
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

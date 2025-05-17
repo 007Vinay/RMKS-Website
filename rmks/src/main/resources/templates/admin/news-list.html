@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/main :: html(content=~{::main}, title='News Management')}">
+<body>
+<main>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>News Management</h1>
+            <a th:href="@{/admin/news/create}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add News
+            </a>
+        </div>
+
+        <!-- News List -->
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title (EN)</th>
+                                <th>Title (HI)</th>
+                                <th>Category</th>
+                                <th>Publish Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="news : ${newsList}">
+                                <td th:text="${news.id}">1</td>
+                                <td th:text="${news.titleEn}">English Title</td>
+                                <td th:text="${news.titleHi}">Hindi Title</td>
+                                <td th:text="${news.category}">Category</td>
+                                <td th:text="${#temporals.format(news.publishDate, 'dd MMM yyyy HH:mm')}">01 Jan 2024</td>
+                                <td>
+                                    <span th:class="${'badge ' + (news.active ? 'bg-success' : 'bg-danger')}"
+                                          th:text="${news.active ? 'Active' : 'Inactive'}">
+                                        Status
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a th:href="@{/admin/news/edit/{id}(id=${news.id})}" 
+                                           class="btn btn-sm btn-primary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a th:href="@{/admin/news/delete/{id}(id=${news.id})}" 
+                                           class="btn btn-sm btn-danger"
+                                           onclick="return confirm('Are you sure you want to delete this news?')">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(newsList)}">
+                                <td colspan="7" class="text-center">No news found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html> 

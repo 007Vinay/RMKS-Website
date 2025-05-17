@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/main :: html(content=~{::main}, title='Home')}">
+<body>
+<main>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="display-4 mb-4 fade-in" th:text="${isHindi} ? 'राष्ट्रीय मजदूर किसान संगठन' : 'Rashtriya Majdoor Kisan Sangathan'">RMKS</h1>
+            <p class="lead mb-4 fade-in" th:text="${isHindi} ? 'किसानों और मजदूरों की आवाज' : 'Voice of Farmers and Workers'"></p>
+            <a href="#about" class="btn btn-light btn-lg fade-in" th:text="${isHindi} ? 'और जानें' : 'Learn More'">Learn More</a>
+        </div>
+    </section>
+
+    <!-- About Section Preview -->
+    <section class="py-5" id="about">
+        <div class="container">
+            <h2 class="section-title" th:text="${isHindi} ? 'हमारे बारे में' : 'About Us'">About Us</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="lead" th:text="${isHindi} ? 'राष्ट्रीय मजदूर किसान संगठन एक समर्पित संगठन है...' : 'Rashtriya Majdoor Kisan Sangathan is a dedicated organization...'"></p>
+                    <a href="/about" class="btn btn-primary" th:text="${isHindi} ? 'पूरा पढ़ें' : 'Read More'">Read More</a>
+                </div>
+                <div class="col-md-6">
+                    <img src="/images/about-preview.jpg" alt="About Us" class="img-fluid rounded shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest News Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title" th:text="${isHindi} ? 'ताज़ा खबरें' : 'Latest News'">Latest News</h2>
+            <div class="row">
+                <div class="col-md-4" th:each="news : ${latestNews}">
+                    <a th:href="@{'/news/' + ${news.id}}" class="text-decoration-none">
+                        <div class="card h-100 hover-shadow">
+                            <img th:src="${news.imageUrl}" class="card-img-top" alt="News Image">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${isHindi} ? ${news.titleHi} : ${news.titleEn}">News Title</h5>
+                                <p class="card-text" th:text="${isHindi} ? ${news.contentHi} : ${news.contentEn}">News Content</p>
+                                <p class="news-date" th:text="${#temporals.format(news.publishDate, 'dd MMM yyyy')}">Date</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="/news" class="btn btn-primary" th:text="${isHindi} ? 'सभी समाचार देखें' : 'View All News'">View All News</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Preview -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="section-title" th:text="${isHindi} ? 'हमारी सेवाएं' : 'Our Services'">Our Services</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <a href="/services#farmer-support" class="text-decoration-none">
+                        <div class="card text-center h-100 hover-shadow">
+                            <div class="card-body">
+                                <i class="fas fa-hands-helping fa-3x mb-3 text-primary"></i>
+                                <h5 class="card-title" th:text="${isHindi} ? 'किसान सहायता' : 'Farmer Support'">Farmer Support</h5>
+                                <p class="card-text" th:text="${isHindi} ? 'किसानों के लिए विभिन्न सहायता सेवाएं' : 'Various support services for farmers'"></p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="/services#worker-rights" class="text-decoration-none">
+                        <div class="card text-center h-100 hover-shadow">
+                            <div class="card-body">
+                                <i class="fas fa-user-shield fa-3x mb-3 text-primary"></i>
+                                <h5 class="card-title" th:text="${isHindi} ? 'श्रमिक अधिकार' : 'Labor Rights'">Labor Rights</h5>
+                                <p class="card-text" th:text="${isHindi} ? 'श्रमिकों के अधिकारों की रक्षा' : 'Protection of workers\' rights'"></p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="/services#training" class="text-decoration-none">
+                        <div class="card text-center h-100 hover-shadow">
+                            <div class="card-body">
+                                <i class="fas fa-graduation-cap fa-3x mb-3 text-primary"></i>
+                                <h5 class="card-title" th:text="${isHindi} ? 'शिक्षा और प्रशिक्षण' : 'Education & Training'">Education & Training</h5>
+                                <p class="card-text" th:text="${isHindi} ? 'कौशल विकास और प्रशिक्षण कार्यक्रम' : 'Skill development and training programs'"></p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="/services" class="btn btn-primary" th:text="${isHindi} ? 'सभी सेवाएं देखें' : 'View All Services'">View All Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-5 bg-primary text-white text-center">
+        <div class="container">
+            <h2 class="mb-4" th:text="${isHindi} ? 'हमारे साथ जुड़ें' : 'Join Our Movement'">Join Our Movement</h2>
+            <p class="lead mb-4" th:text="${isHindi} ? 'एक बेहतर भविष्य के लिए हमारे साथ काम करें' : 'Work with us for a better future'"></p>
+            <a href="/feedback" class="btn btn-light btn-lg" th:text="${isHindi} ? 'अभी जुड़ें' : 'Join Now'">Join Now</a>
+        </div>
+    </section>
+</main>
+</body>
+</html>

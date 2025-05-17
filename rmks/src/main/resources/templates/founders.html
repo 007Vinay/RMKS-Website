@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/main :: html(content=~{::main}, title='Founding Members')}">
+<body>
+<main>
+    <div class="container">
+        <h1 class="mb-4" th:text="${isHindi} ? 'संस्थापक सदस्य' : 'Founding Members'">Founding Members</h1>
+
+        <div class="row">
+            <!-- Founder 1 -->
+            <div class="col-md-4 mb-4">
+                <div class="card founder-card">
+                    <img src="/images/founder1.jpg" class="card-img-top" alt="Founder 1">
+                    <div class="card-body">
+                        <h3 class="card-title" th:text="${isHindi} ? 'संस्थापक का नाम' : 'Founder Name'">Founder Name</h3>
+                        <p class="card-subtitle mb-2 text-muted" th:text="${isHindi} ? 'अध्यक्ष' : 'President'">President</p>
+                        <p class="card-text" th:text="${isHindi} ? 'संस्थापक का संक्षिप्त परिचय और योगदान।' : 'Brief introduction and contribution of the founder.'"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Founder 2 -->
+            <div class="col-md-4 mb-4">
+                <div class="card founder-card">
+                    <img src="/images/founder2.jpg" class="card-img-top" alt="Founder 2">
+                    <div class="card-body">
+                        <h3 class="card-title" th:text="${isHindi} ? 'संस्थापक का नाम' : 'Founder Name'">Founder Name</h3>
+                        <p class="card-subtitle mb-2 text-muted" th:text="${isHindi} ? 'उपाध्यक्ष' : 'Vice President'">Vice President</p>
+                        <p class="card-text" th:text="${isHindi} ? 'संस्थापक का संक्षिप्त परिचय और योगदान।' : 'Brief introduction and contribution of the founder.'"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Founder 3 -->
+            <div class="col-md-4 mb-4">
+                <div class="card founder-card">
+                    <img src="/images/founder3.jpg" class="card-img-top" alt="Founder 3">
+                    <div class="card-body">
+                        <h3 class="card-title" th:text="${isHindi} ? 'संस्थापक का नाम' : 'Founder Name'">Founder Name</h3>
+                        <p class="card-subtitle mb-2 text-muted" th:text="${isHindi} ? 'महासचिव' : 'General Secretary'">General Secretary</p>
+                        <p class="card-text" th:text="${isHindi} ? 'संस्थापक का संक्षिप्त परिचय और योगदान।' : 'Brief introduction and contribution of the founder.'"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="founder-history mt-5">
+            <h2 class="mb-4" th:text="${isHindi} ? 'स्थापना का इतिहास' : 'Foundation History'">Foundation History</h2>
+            <div class="row">
+                <div class="col-md-8">
+                    <p class="lead" th:text="${isHindi} ? 'संगठन की स्थापना का विस्तृत इतिहास और संस्थापकों का विजन।' : 'Detailed history of the organization\'s foundation and the founders\' vision.'"></p>
+                    <p th:text="${isHindi} ? 'संस्थापकों द्वारा किए गए महत्वपूर्ण कार्य और उपलब्धियां।' : 'Important work and achievements by the founders.'"></p>
+                </div>
+                <div class="col-md-4">
+                    <img src="/images/foundation-history.jpg" class="img-fluid rounded" alt="Foundation History">
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

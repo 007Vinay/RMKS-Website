@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/main :: html(content=~{::main}, title='Feedback')}">
+<body>
+<main>
+    <div class="container py-5">
+        <h1 class="mb-4" th:text="${isHindi} ? 'प्रतिक्रिया' : 'Feedback'">Feedback</h1>
+        
+        <!-- Success Alert (Hidden by default) -->
+        <div id="successAlert" class="alert alert-success alert-dismissible fade" role="alert" style="display: none;">
+            <span th:text="${isHindi} ? 'आपकी प्रतिक्रिया सफलतापूर्वक जमा कर दी गई है!' : 'Your feedback has been submitted successfully!'">
+                Your feedback has been submitted successfully!
+            </span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <!-- Error Alert (Hidden by default) -->
+        <div id="errorAlert" class="alert alert-danger alert-dismissible fade" role="alert" style="display: none;">
+            <span th:text="${isHindi} ? 'प्रतिक्रिया जमा करने में त्रुटि। कृपया पुनः प्रयास करें।' : 'Error submitting feedback. Please try again.'">
+                Error submitting feedback. Please try again.
+            </span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title mb-4" th:text="${isHindi} ? 'अपनी प्रतिक्रिया साझा करें' : 'Share Your Feedback'">Share Your Feedback</h3>
+
+                        <form id="feedbackForm" class="needs-validation" novalidate>
+                            <div class="mb-3">
+                                <label for="name" class="form-label" th:text="${isHindi} ? 'नाम' : 'Name'">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                                <div class="invalid-feedback" th:text="${isHindi} ? 'कृपया अपना नाम दर्ज करें' : 'Please enter your name'">
+                                    Please enter your name
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label" th:text="${isHindi} ? 'ईमेल' : 'Email'">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                                <div class="invalid-feedback" th:text="${isHindi} ? 'कृपया एक वैध ईमेल पता दर्ज करें' : 'Please enter a valid email address'">
+                                    Please enter a valid email address
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="phone" class="form-label" th:text="${isHindi} ? 'फोन नंबर' : 'Phone Number'">Phone Number</label>
+                                <input type="tel" class="form-control" id="phone" name="phone">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="category" class="form-label" th:text="${isHindi} ? 'श्रेणी' : 'Category'">Category</label>
+                                <select class="form-control" id="category" name="category" required>
+                                    <option value="GENERAL" th:text="${isHindi} ? 'सामान्य प्रतिक्रिया' : 'General Feedback'">General Feedback</option>
+                                    <option value="SUGGESTION" th:text="${isHindi} ? 'सुझाव' : 'Suggestion'">Suggestion</option>
+                                    <option value="COMPLAINT" th:text="${isHindi} ? 'शिकायत' : 'Complaint'">Complaint</option>
+                                    <option value="MEMBERSHIP_REQUEST" th:text="${isHindi} ? 'सदस्यता अनुरोध' : 'Membership Request'">Membership Request</option>
+                                    <option value="VOLUNTEER_APPLICATION" th:text="${isHindi} ? 'स्वयंसेवक आवेदन' : 'Volunteer Application'">Volunteer Application</option>
+                                </select>
+                                <div class="invalid-feedback" th:text="${isHindi} ? 'कृपया श्रेणी चुनें' : 'Please select a category'">
+                                    Please select a category
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="message" class="form-label" th:text="${isHindi} ? 'संदेश' : 'Message'">Message</label>
+                                <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                                <div class="invalid-feedback" th:text="${isHindi} ? 'कृपया अपना संदेश दर्ज करें' : 'Please enter your message'">
+                                    Please enter your message
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="subscribe" name="subscribe">
+                                    <label class="form-check-label" for="subscribe" th:text="${isHindi} ? 'मुझे अपडेट प्राप्त करना है' : 'I want to receive updates'">
+                                        I want to receive updates
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" th:text="${isHindi} ? 'प्रतिक्रिया जमा करें' : 'Submit Feedback'">
+                                Submit Feedback
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add this script at the end of the main section -->
+    <script th:inline="javascript">
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                category: document.getElementById('category').value,
+                message: document.getElementById('message').value,
+                subscribe: document.getElementById('subscribe').checked
+            };
+
+            // Send AJAX request
+            fetch('/feedback/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Show success message
+                const successAlert = document.getElementById('successAlert');
+                successAlert.style.display = 'block';
+                successAlert.classList.add('show');
+                
+                // Reset form
+                this.reset();
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    successAlert.classList.remove('show');
+                    setTimeout(() => {
+                        successAlert.style.display = 'none';
+                    }, 150);
+                }, 5000);
+            })
+            .catch(error => {
+                // Show error message
+                const errorAlert = document.getElementById('errorAlert');
+                errorAlert.style.display = 'block';
+                errorAlert.classList.add('show');
+                
+                // Hide error message after 5 seconds
+                setTimeout(() => {
+                    errorAlert.classList.remove('show');
+                    setTimeout(() => {
+                        errorAlert.style.display = 'none';
+                    }, 150);
+                }, 5000);
+            });
+        });
+    </script>
+</main>
+</body>
+</html>

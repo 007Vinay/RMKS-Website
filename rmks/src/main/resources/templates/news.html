@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/main :: html(content=~{::main}, title='News')}">
+<body>
+<main>
+    <div class="container">
+        <h1 class="mb-4" th:text="${isHindi} ? 'समाचार' : 'News'">News</h1>
+
+        <!-- News Categories -->
+        <div class="news-categories mb-4">
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${selectedCategory == null} ? 'active'" 
+                       th:href="@{/news}" th:text="${isHindi} ? 'सभी' : 'All'">All</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${selectedCategory == 'farmers'} ? 'active'"
+                       th:href="@{/news(category='farmers')}" th:text="${isHindi} ? 'किसान' : 'Farmers'">Farmers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${selectedCategory == 'workers'} ? 'active'"
+                       th:href="@{/news(category='workers')}" th:text="${isHindi} ? 'मजदूर' : 'Workers'">Workers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${selectedCategory == 'events'} ? 'active'"
+                       th:href="@{/news(category='events')}" th:text="${isHindi} ? 'कार्यक्रम' : 'Events'">Events</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Featured News -->
+        <div class="featured-news mb-5" th:if="${featuredNews != null}">
+            <div class="card">
+                <div class="row g-0">
+                    <div class="col-md-6">
+                        <img th:src="${featuredNews.imageUrl}" class="img-fluid rounded-start" alt="Featured News">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <span class="badge bg-primary mb-2" th:text="${isHindi} ? 'प्रमुख समाचार' : 'Featured'">Featured</span>
+                            <h2 class="card-title" th:text="${isHindi} ? ${featuredNews.titleHi} : ${featuredNews.titleEn}">Featured News Title</h2>
+                            <p class="card-text" th:text="${isHindi} ? ${featuredNews.contentHi} : ${featuredNews.contentEn}">Featured News Content</p>
+                            <p class="text-muted">
+                                <small th:text="${#temporals.format(featuredNews.publishDate, 'dd MMM yyyy')}">Date</small>
+                            </p>
+                            <a th:href="@{'/news/' + ${featuredNews.id}}" class="btn btn-primary" th:text="${isHindi} ? 'और पढ़ें' : 'Read More'">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- News Grid -->
+        <div class="row">
+            <!-- Empty State -->
+            <div class="col-12 text-center py-5" th:if="${#lists.isEmpty(newsList) && featuredNews == null}">
+                <div class="alert alert-info">
+                    <h3 th:text="${isHindi} ? 'कोई समाचार नहीं मिला' : 'No News Found'">No News Found</h3>
+                    <p th:text="${isHindi} ? 'अभी तक कोई समाचार प्रकाशित नहीं किया गया है' : 'No news has been published yet'">
+                        No news has been published yet
+                    </p>
+                </div>
+            </div>
+
+            <!-- News Cards -->
+            <div class="col-md-4 mb-4" th:each="news : ${newsList}">
+                <div class="card h-100">
+                    <img th:if="${news.imageUrl}" th:src="@{${news.imageUrl}}" class="card-img-top" th:alt="${isHindi} ? ${news.titleHi} : ${news.titleEn}">
+                    <div class="card-body">
+                        <span class="badge" th:classappend="${news.category == 'farmers' ? 'bg-success' : (news.category == 'workers' ? 'bg-info' : 'bg-warning')}"
+                              th:text="${news.category}">Category</span>
+                        <h3 class="card-title h5 mt-2" th:text="${isHindi} ? ${news.titleHi} : ${news.titleEn}">News Title</h3>
+                        <p class="card-text" th:text="${isHindi} ? ${news.summaryHi} : ${news.summaryEn}">News Summary</p>
+                        <p class="text-muted">
+                            <small th:text="${#temporals.format(news.publishDate, 'dd MMM yyyy')}">Date</small>
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <a th:href="@{'/news/' + ${news.id}}" class="btn btn-outline-primary" th:text="${isHindi} ? 'और पढ़ें' : 'Read More'">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <nav aria-label="News pagination" th:if="${totalPages > 1}">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{/news(page=${currentPage - 1})}" th:text="${isHindi} ? 'पिछला' : 'Previous'">Previous</a>
+                </li>
+                <li class="page-item" th:each="pageNum : ${#numbers.sequence(1, totalPages)}"
+                    th:classappend="${pageNum == currentPage} ? 'active'">
+                    <a class="page-link" th:href="@{/news(page=${pageNum})}" th:text="${pageNum}">1</a>
+                </li>
+                <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                    <a class="page-link" th:href="@{/news(page=${currentPage + 1})}" th:text="${isHindi} ? 'अगला' : 'Next'">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</main>
+</body>
+</html>
