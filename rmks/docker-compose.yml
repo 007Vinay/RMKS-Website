@@ -1,0 +1,33 @@
+services:
+  app:
+    build: .
+    container_name: rmks-app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/rmksdb
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=Vinay15
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    volumes:
+      - ./uploads:/app/uploads
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: postgres:15-alpine
+    container_name: rmks-db
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=rmksdb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Vinay15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    name: rmks-postgres-data 
